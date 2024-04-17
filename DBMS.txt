@@ -1,0 +1,261 @@
+DBMS
+
+exp1
+CREATE TABLE EMP(ID NUMBER(10),NAME VARCHAR);
+alter table emp add(dept varchar 10);
+desc emp;
+alter table emp modify dept varchar(20);
+
+exp2
+insert into emp(attributes) values();
+update emp1 set name ='BBB' where id=2;
+update emp1 set name ='CCC',dept='ece' where id =3;
+insert into emp2 select * from emp1;
+
+exp3 
+
+savepoint A
+rollback to B;
+commit
+
+exp4 
+
+select count(*) form stud 1;
+select count(*) form stud 1 hwere depterment='ece';
+select min(mark) from stdu1;
+select min(mark1+mark) from stdu1;
+select sum(mark1+mark2) from stdu1;
+select avg(mark1+mark2) from stdu1;
+  
+exp 6
+
+select id,namp from emp where salary=6500;
+select id,name from emp where salary=(select max(salary)from emp);
+select * from emp where salary>(select avg(salary) from emp);
+select * from emp where salary>(select avg(salary) from emp)order by
+age desc;
+update emp set salary=salary*0.25 where age in(select age from emp
+where age>=29);
+update emp set salary=salary*10 where age not in(select age from emp
+where age>=30);
+delete from emp where age in(select age from emp where age>=30);
+
+view (pending)
+
+exp 7
+
+select fcou.cid,fac.fname,fac.age from fac inner join fcou on
+fac.fid=fcou.fid;
+select fac.fname,fcou.cid from fac left join fcou on fcou.fid=fac.fid;
+select fac.fname,fcou.cid from fac left join fcou on fcou.fid=fac.fid;
+select fac.fid,fcou.cid from fac full join fcou on fcou.fid=fac.fid;
+
+
+exp8
+
+select * from z union select * from z1;
+select * from z intersect select * from z1;
+select * from z minus select * from z1;
+select * from z1 minus select * from z;
+
+
+
+
+primary key 
+create table deperatment(deptno number primary key, dname varchar(40),lcation carchar(40));
+foreign key 
+create table employee(name varchar ,sname varchar ,slaray number(10),deptno foreign key references deperatment(deptno);
+
+
+
+
+
+
+pl sql program Conditional and Iterative Statements
+
+
+Set serveroutput on
+declare
+a varchar(10) := 'hello';
+begin
+dbms_output.put_line(a);
+end;
+/
+
+
+if else
+
+declare
+a integer :=30;
+begin
+if(a<20)then
+dbms_output.put_line('a is less than 20');
+else
+dbms_output.put_line('a is not less than 20');
+end if;
+end;
+
+case statement 
+declare 
+grade char(1) "='A';
+begin
+case grade 
+when 'A' then dbms_output.put_line('EXcellent');
+when 'B' then dbms_output.put_line('EXcellent');
+when 'C' then dbms_output.put_line('EXcellent');
+when 'D' then dbms_output.put_line('EXcellent');
+else
+dbms_output.put_line('failed');
+END case;
+end;
+
+
+loop 
+
+declare 
+i number :=1;
+begin
+loop
+exit when i>10;
+dbms_output.put_line(i);
+i:=i+1;
+end loop;
+end;
+
+
+
+while loop
+
+SQL> DECLARE
+2 i INTEGER := 1;
+3 BEGIN
+4 WHILE i <= 10 LOOP
+5 DBMS_OUTPUT.PUT_LINE(i);
+6 i := i+1;
+7 END LOOP;
+8 END;
+
+
+for loop
+
+SQL> DECLARE
+2 VAR1 NUMBER;
+3 BEGIN
+4 VAR1:=10;
+5 FOR VAR2 IN 1..10
+6 LOOP
+7 DBMS_OUTPUT.PUT_LINE (VAR1*VAR2);
+8 END LOOP;
+9 END;
+
+
+SQL> create or replace function adder(n1 in number, n2 in number)
+2 return number
+3 is
+4 n3 number(8);
+5 begin
+6 n3 :=n1+n2;
+7 return n3;
+8 end;
+9 /
+
+Function created.
+
+SQL> DECLARE
+2 n3 number(2);
+3 BEGIN
+4 n3 := adder(11,22);
+5 dbms_output.put_line('Addition is: ' || n3);
+6 END;
+7 /
+Addition is: 33
+
+
+
+expception handeling 
+declare 
+c_id emp.id%type:=10;
+c_name emp.name%type;
+c_add emp.address%type;
+begin
+select namae,address into c_name,c_addr from emp where id=c_id;
+dbms_output.put_line('Name:'||c_name);
+dbms_output.put_line('Name:'||c_addr);
+exception
+when no_data_found then dbms_output.put_line('no such customer');
+when other then dbms_output.put_line('error');
+end;
+
+
+
+
+
+SQL> create or replace function adder(n1 in number, n2 in number)
+2 return number
+3 is
+4 n3 number(8);
+5 begin
+6 n3 :=n1+n2;
+7 return n3;
+8 end;
+9 /
+
+Function created.
+
+SQL> DECLARE
+2 n3 number(2);
+3 BEGIN
+4 n3 := adder(11,22);
+5 dbms_output.put_line('Addition is: ' || n3);
+6 END;
+7 /
+Addition is: 33
+
+
+
+create or replace function totalemp
+2 return number is
+3 total number(10):=0;
+4 begin
+5 select count(*) into total from emp;
+6 return total;
+7 end;
+8 /
+
+Function created.
+
+SQL> declare
+2 c number(20);
+3 begin
+4 c:=totalemp();
+5 dbms_output.put_line('Total no of emp:'||c);
+6 end;
+7 /
+Total no of emp:3
+
+PL/SQL procedure successfully completed.
+SQL> DECLARE
+2 num number;
+3 factorial number;
+4
+5 FUNCTION fact(x number)
+6 RETURN number
+7 IS
+8 f number;
+9 BEGIN
+10 IF x=0 THEN
+11 f := 1;
+12 ELSE
+13 f := x * fact(x-1);
+14 END IF;
+
+15 RETURN f;
+16 END;
+17
+18 BEGIN
+19 num:= 6;
+20 factorial := fact(num);
+21 dbms_output.put_line(' Factorial '|| num || ' is ' || factorial);
+22 END;
+23 /
+Factorial 6 is 720
